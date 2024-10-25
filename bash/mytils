@@ -1,10 +1,12 @@
 #!/bin/bash
 
+mytils_script_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 if [ $1 == "list" ]; then
 	echo
 	echo "Available utilities:"
 	echo "--------------------"
-	for f in scripts/*; do 
+	for f in $mytils_script_path/scripts/*; do 
 		if [ -x $f ]; then 
 			$f --descr
 		fi
