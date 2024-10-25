@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ $1 == "list" ]; then
+	echo
+	echo "Available utilities:"
+	echo "--------------------"
+	for f in scripts/*; do 
+		if [ -x $f ]; then 
+			$f --descr
+		fi
+	done
+	echo
+else
+	~/src/Utils/bash/scripts/"$1" "${@:2}"
+fi

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+show_descr() {
+	echo "base - Base script for all other utility scripts"
+}
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-d|--descr)
+			show_descr
+			exit 0
+			;;
+	esac
+done
+
+echo "This script does nothing, it should be used as an example for other scripts"
