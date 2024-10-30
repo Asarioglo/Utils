@@ -13,5 +13,5 @@ if [ $1 == "list" ]; then
 	done
 	echo
 else
-	~/src/Utils/bash/scripts/"$1" "${@:2}"
+	$mytils_script_path/scripts/"$1" "${@:2}" || echo "Script $1 not found"
 fi
