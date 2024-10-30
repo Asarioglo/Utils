@@ -1,17 +1,41 @@
 #!/bin/bash
 
-mytils_script_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+mytils_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+scripts_path="$mytils_path/scripts"
 
-if [ $1 == "list" ]; then
-	echo
-	echo "Available utilities:"
-	echo "--------------------"
-	for f in $mytils_script_path/scripts/*; do 
-		if [ -x $f ]; then 
-			$f --descr
+printdir() {
+	echo "$2:"
+	# echo "printing contents of $1"
+	for f in "$1"/*; do 
+		# echo "  $f"
+		if [[ -f "$f" && -x "$f" ]]; then 
+			echo "  $($f --descr)"
 		fi
 	done
+}
+
+if [[ -z "$1" || "$1" == "list" ]]; then
+	echo
+	echo "Available Utilities:"
+	echo "--------------------"
+	printdir "$scripts_path" "Base"
+
+	for f in "$scripts_path"/*; do
+		if [ -d "$f" ]; then
+			printdir $f "$(basename $f)"
+		fi
+	done
+
 	echo
 else
-	$mytils_script_path/scripts/"$1" "${@:2}" || echo "Script $1 not found"
+    for file in "$scripts_path"/**/*; do
+		if [[ -f "$file" && -x "$file" && "$(basename $file)" == "$1" ]]; then
+			echo "running command: $file ${@:2}"
+			$file "${@:2}"
+			exit 0
+		fi
+	done
+	# find "$scripts_path" -type f -name "$1" -exec {} "${@:2}" \; -quit
+	# $mytils_script_path/scripts/"$1" "${@:2}" || echo "Script $1 not found"
 fi
+

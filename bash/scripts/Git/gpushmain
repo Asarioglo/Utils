@@ -1,0 +1,16 @@
+#!/bin/bash
+
+show_descr() {
+	echo "gpushmain - git commit, git add and git push to main (usage: mytils gpushmain '<commit message>')"
+}
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		-d|--descr)
+			show_descr
+			exit 0
+			;;
+	esac
+done
+
+git add .; git commit -m "$1"; git push origin main
