@@ -1,7 +1,7 @@
 #!/bin/bash
 
 show_descr() {
-	echo "gpushmain - git commit, git add and git push to main (usage: mytils gpushmain '<commit message>')"
+	echo "gpushmain - git commit, git add and git push to main or master (usage: mytils gpushmain '<commit message>')"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -10,7 +10,36 @@ while [[ $# -gt 0 ]]; do
 			show_descr
 			exit 0
 			;;
+		*)
+			break
+			;;
 	esac
 done
 
-git add .; git commit -m "$1"; git push origin main
+echo "Starting the process"
+
+if [ -z "$1" ]; then
+	echo "Please provide a commit message"
+	exit 1
+fi
+
+if [ -z "$(git status --porcelain)" ]; then
+	echo "No changes to commit"
+	exit 1
+fi
+
+master_or_main=$(git branch --show-current | grep -E 'main|master')
+
+if [ -z "$master_or_main" ]; then
+	echo "Not on main or master branch"
+	exit 1
+fi
+
+echo "Adding changes"
+git add .
+
+echo "Creating the commit"
+git commit -m "$1"
+
+echo "Pushing to master"
+git push origin "$master_or_main"

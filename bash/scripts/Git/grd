@@ -10,6 +10,9 @@ while [[ $# -gt 0 ]]; do
 			show_descr
 			exit 0
 			;;
+		*)
+			break
+			;;
 	esac
 done
 
