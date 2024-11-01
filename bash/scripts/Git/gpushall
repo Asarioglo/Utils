@@ -1,13 +1,28 @@
 #!/bin/bash
 
-show_descr() {
-	echo "$1 gpushmain - git commit, git add and git push to main or master (usage: mytils gpushmain '<commit message>')"
-}
+script_name=$(basename $0)
+descr_str="git commit, add, and push to the remote tracked by the current branch"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	mytils $script_name [--help|--descr]
+	mytils $script_name '<commit message>'
 
-if mytils isdescr "$1"; then
-	show_descr $2
+This is a shortcut for 
+	git add .
+	git commit -m '<commit message>'
+	git push origin <current branch>
+"
+
+if mytils isdescr "$1" "$descr_str"; then
 	exit 0
 fi
+
+if mytils ishelp "$1" "$help_str"; then
+	exit 0
+fi
+# /////
 
 echo "Starting the process"
 

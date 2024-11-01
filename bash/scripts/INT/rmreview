@@ -1,0 +1,35 @@
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Remove all Git Review (gerrit) branches from local repository"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: mytils $script_name [--help|--descr]
+
+For Gerrit Code Review (used at INT), when a change is checked out
+it creates a local branch called review/*. This script forcefully
+removes all review branches from the local repository.
+"
+
+if mytils isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if mytils ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+# ////
+show_descr() {
+	echo "$1 rmreview - "
+}
+
+is_descr=$(mytils isdescr "is$1")
+
+if mytils isdescr "$1"; then
+	show_descr $2
+	exit 0
+fi
+
+git branch --list 'review*' | xargs -r git branch -D

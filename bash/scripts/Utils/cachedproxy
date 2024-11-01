@@ -1,0 +1,66 @@
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Runsa a SOCKS5 proxy which caches responses from provided endpoints"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage:  mytils $script_name [--help|--descr]
+        mytils $script_name [--port <port=9912>] [--patterns \"pattern1\" \"pattern2\"]
+
+Starts a local SOCKS5 proxy which caches responses from provided endpoints.
+An in-memory cache is used to store responses. 
+Only requests matching the provided patterns are cached. If no patterns
+are provided, all requests are cached.
+
+To use this proxy, set the browser proxy settings to use a SOCKS5 proxy
+on 127.0.0.1:<port>. The default port is 9912.
+"
+
+if mytils isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if mytils ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+# Initialize variables
+port="9912"
+patterns=()
+
+# Parse options
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --port)
+      port="$2"
+      shift 2
+      ;;
+    --patterns)
+      shift
+      while [[ $# -gt 0 && ! "$1" =~ ^-- ]]; do
+        patterns+=("$1")  # Add each pattern to the array
+        shift
+      done
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
+
+# Output the collected inputs
+echo "Port: $port"
+
+IFS=";"  # Set IFS to :
+joined_patterns="${patterns[*]}"
+export MYTILS_PROXY_CACHE_PATTERNS="$joined_patterns"
+
+#echo "Patterns: $MYTILS_PROXY_CACHE_PATTERNS"
+
+echo "Starting mitmproxy on port $port ..."
+
+mitmproxy --mode socks5 --listen-port $port -s $(mytils utilspath)/python/mitmproxy/cache_requests.py
+
+# Add --upstream-socks5 127.0.0.1:9911 to use INT jump SSH proxy

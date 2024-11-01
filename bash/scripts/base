@@ -1,11 +1,23 @@
 #!/bin/bash
 
-show_descr() {
-	echo "$1 base - Base script for all other utility scripts"
-}
+script_name=$(basename $0)
+descr_str="Base script for all other utility scripts"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	mytils $script_name [--help|--descr]
 
-if mytils isdescr "$1"; then
-	show_descr "$2"
+This script does nothing. Its purpose is to be copied and pasted
+into a new utility as a guide of how to structure and integrate it
+with the mytils infrastructure.
+"
+
+if mytils isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if mytils ishelp "$1" "$help_str"; then
 	exit 0
 fi
 

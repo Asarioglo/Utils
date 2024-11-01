@@ -1,0 +1,10 @@
+#!/bin/bash
+
+title="Mytils"
+if [ -n "$2" ]; then
+    title="$2"
+fi
+
+osascript -e "display notification \"$1\" with title \"$title\""
+
+afplay -v 5 /System/Library/Sounds/Funk.aiff

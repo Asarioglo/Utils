@@ -1,13 +1,29 @@
 #!/bin/bash
 
-show_descr() {
-	echo "$1 isyncall - Checkout the target branch and get the latest changes. Sync toolkit and other deps."
-	echo "$1 |- Warning, this will reset all changes in the current branch and in target branch"
-}
+script_name=$(basename $0)
+descr_str="Checkout the target branch and get the latest changes. Sync toolkit and other deps."
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	mytils $script_name [--help|--descr]
+	mytils $script_name [<branch>=master]
 
-if mytils isdescr "$1"; then
-	echo "descr detected $1"
-	show_descr $2
+Special script for IVAAP. When in the root of repository, this script will:
+	- Stash current changes
+	- Clean up the directory
+	- Checkout the target branch
+	- Reset the target branch
+	- Pull the remote of the target branch
+	- Sync toolkit
+	- Re-Install dependencies
+"
+
+if mytils isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if mytils ishelp "$1" "$help_str"; then
 	exit 0
 fi
 

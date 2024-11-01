@@ -1,0 +1,27 @@
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Prints the 'scripts' object from package.json"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: mytils $script_name [--help|--descr]
+
+Simply output the 'scripts' object from the package.json file in the
+current directory.
+"
+
+if mytils isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if mytils ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+if [ ! -f package.json ]; then
+	echo "package.json not found"
+	exit 1
+fi
+
+cat package.json | jq "{scripts}"

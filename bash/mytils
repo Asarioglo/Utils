@@ -2,14 +2,17 @@
 
 mytils_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 scripts_path="$mytils_path/scripts"
+bold=$(tput bold)
+normal=$(tput sgr0)
 
 printdir() {
 	echo "$2:"
 	# echo "printing contents of $1"
 	for f in "$1"/*; do 
 		# echo "  $f"
+		f_name=$(basename $f)
 		if [[ -f "$f" && -x "$f" ]]; then 
-			echo "$($f --descr '-')"
+			echo "- ${bold}$f_name${normal} - $($f --descr)"
 		fi
 	done
 }

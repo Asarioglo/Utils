@@ -1,0 +1,66 @@
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Opena an SSH tunnel in SOCKS proxy mode to INT's jump server on port 9911"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	mytils $script_name [--help|--descr]
+	mytils $script_name [--stop]
+
+Open a SOCKS tunnel to INT's jump server on port 9911.
+
+Options:
+	--stop		Stop the SOCKS proxy if one is already open.
+"
+
+if mytils isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if mytils ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+
+show_descr() {
+	echo "$1 ijumpproxy - Opena an SSH tunnel in SOCKS proxy mode to INT's jump server on port 9911"
+}
+
+if mytils isdescr "$1"; then
+	show_descr "$2"
+	exit 0
+fi
+
+port=9911
+
+if [ "$1" == "--stop" ]; then
+	if mytils _isportfree 9911; then
+		echo "Port $port is free. No SOCKS proxy is open."
+		exit 1
+	fi
+	pid=$(lsof -ti:"$port")
+	if ps aux | grep "$pid" | grep -v "grep" | grep -q "ssh"; then
+		echo "Stopping the SOCKS proxy on port $port. PID $pid"
+		kill $pid
+		echo "Done."
+		exit 0
+	else
+		echo "Port $port is being listened to, but the process is not an SSH tunnel."
+		exit 1
+	fi
+
+fi
+
+# Check if the port is free first
+if ! mytils _isportfree "$port"; then
+	echo "Port $port is being listened to. Most probably, the jump proxy is already open."
+	exit 1
+fi
+
+echo "Opening a SOCKS proxy on 127.0.0.1:$port"
+ssh -D "$port" jump -N -f
+
+# -N no commands executed on remote
+# -f run in background

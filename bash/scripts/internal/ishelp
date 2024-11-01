@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# echo "Running isdescr"
-
-if [[ -n "$1" && ("$1" == "-d" || "$1" == "--descr") ]]; then
+if [[ -n "$1" && ("$1" == "-h" || "$1" == "--help") ]]; then
     if [[ -n "$2" ]]; then
         echo "$2"
     fi

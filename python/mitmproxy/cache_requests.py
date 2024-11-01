@@ -1,4 +1,4 @@
-from mitmproxy import http
+from mitmproxy import http, ctx
 from cachetools import TTLCache
 import re
 import os
@@ -24,6 +24,7 @@ URL_PATTERNS_TO_CACHE = [re.compile(path) for path in paths]
 
 def request(flow: http.HTTPFlow) -> None:
     if flow.request.pretty_url in cache:
+        ctx.log.info(f"Cache hit for {flow.request.pretty_url}")
         flow.response = cache[flow.request.pretty_url].copy()
         flow.response.headers["X-Cache-Status"] = "HIT"
 

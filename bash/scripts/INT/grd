@@ -1,14 +1,15 @@
 #!/bin/bash
 
 script_name=$(basename $0)
-descr_str="git add and ammend last commit with no changes to the message"
+descr_str="Download changes from gerrit for review"
 help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
 	mytils $script_name [--help|--descr]
+	mytils $script_name 
 
-Shortcut for 'git add .' and 'git commit --amend --no-edit'
+Shortcut for 'git review -d'
 "
 
 if mytils isdescr "$1" "$descr_str"; then
@@ -20,6 +21,6 @@ if mytils ishelp "$1" "$help_str"; then
 fi
 
 
-# Run the commands
+# ////
 
-git add .; git commit --amend --no-edit
+git review -d
