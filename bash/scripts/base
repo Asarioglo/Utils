@@ -1,19 +1,12 @@
 #!/bin/bash
 
 show_descr() {
-	echo "base - Base script for all other utility scripts"
+	echo "$1 base - Base script for all other utility scripts"
 }
 
-while [[ $# -gt 0 ]]; do
-	case "$1" in
-		-d|--descr)
-			show_descr
-			exit 0
-			;;
-		*)
-			break
-			;;
-	esac
-done
+if mytils isdescr "$1"; then
+	show_descr "$2"
+	exit 0
+fi
 
 echo "This script does nothing, it should be used as an example for other scripts"

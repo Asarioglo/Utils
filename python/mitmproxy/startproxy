@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mitmproxy --mode socks5 --listen-port 9911 -s /Users/asarioglo/src/Utils/python/mitmproxy/cache_requests.py

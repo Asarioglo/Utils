@@ -1,0 +1,16 @@
+#!/bin/bash
+
+show_descr() {
+	echo "$1 icacheddev - Starts a cached proxy configured to cache dev IVAAP requests and an unsafe Chrome"
+}
+
+_run_proxy() {
+    mitmproxy --mode socks5 --listen-port 9912 -s $(mytils utilspath)/python/mitmproxy/cache_requests.py
+}
+
+if mytils isdescr "$1"; then
+	show_descr "$2"
+	exit 0
+fi
+
+echo "This script does nothing, it should be used as an example for other scripts"

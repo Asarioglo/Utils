@@ -1,20 +1,17 @@
 #!/bin/bash
 
 show_descr() {
-	echo "seescripts - Prints the 'scripts' object from package.json"
+	echo "$1 seescripts - Prints the 'scripts' object from package.json"
 }
 
-while [[ $# -gt 0 ]]; do
-	case "$1" in
-		-d|--descr)
-			show_descr
-			exit 0
-			;;
-		*)
-			break
-			;;
-	esac
-done
+if mytils isdescr "$1"; then
+	show_descr $2
+	exit 0
+fi
 
+if [ ! -f package.json ]; then
+	echo "package.json not found"
+	exit 1
+fi
 
 cat package.json | jq "{scripts}"

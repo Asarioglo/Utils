@@ -1,0 +1,59 @@
+#!/bin/bash
+
+show_descr() {
+	echo "$1 isyncall - Checkout the target branch and get the latest changes. Sync toolkit and other deps."
+	echo "$1 |- Warning, this will reset all changes in the current branch and in target branch"
+}
+
+if mytils isdescr "$1"; then
+	echo "descr detected $1"
+	show_descr $2
+	exit 0
+fi
+
+branch=master
+if [[ -n "$1" ]]; then
+	branch=$1
+fi
+
+_reset() {
+	synctoolkit=$(mytils seescripts | grep "sync-toolkit")
+	if [[ -z "$synctoolkit" ]]; then
+		echo "Doesn't seem to be an IVAAP directory, stopping"
+		exit 1
+	fi
+
+	echo "Stashing current changes"
+	echo "> git stash"
+	git stash
+
+	echo "Cleaning up the directory"
+	echo "> git clean -fd"
+	git clean -fd
+
+	echo "Checking out $1"
+	echo "> git checkout $1"
+	git checkout "$1"
+
+	echo "Resetting $1"
+	echo "> git reset origin/$1 --hard"
+	git reset origin/"$1" --hard
+
+	echo "Pulling $1"
+	echo "> git pull origin $1"
+	git pull origin "$1"
+
+	echo "Syncing toolkit"
+	echo "> npm run sync-toolkit"
+	npm run sync-toolkit
+
+	echo "Installing dependencies"
+	echo "> npm ci"
+	npm ci
+}
+
+if mytils confirm "This will reset all changes in $branch, are you sure? [y/n]"; then
+    _reset $branch
+else
+    echo "Stopped."
+fi

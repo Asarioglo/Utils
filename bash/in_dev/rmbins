@@ -1,0 +1,3 @@
+#!/bin/bash
+
+for f in ./**/*; do if [[ "$f" == *"/bin" && ! "$f" == *"node_modules"* ]]; then rm -rf $f; fi; done

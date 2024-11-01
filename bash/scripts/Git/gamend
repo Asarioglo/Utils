@@ -1,19 +1,12 @@
 #!/bin/bash
 
 show_descr() {
-	echo "gamend - git add, and git commit with no changes to the message"
+	echo "$1 gamend - git add, and git commit with no changes to the message"
 }
 
-while [[ $# -gt 0 ]]; do
-	case "$1" in
-		-d|--descr)
-			show_descr
-			exit 0
-			;;
-		*)
-			break
-			;;
-	esac
-done
+if mytils isdescr "$1"; then
+	show_descr $2
+	exit 0
+fi
 
 git add .; git commit --amend --no-edit

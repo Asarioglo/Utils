@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Don't forget to add mimproxy certificate to root certificates (~/.mitmproxy)"
+echo "In chrome, you'll need to install the Proxy SwitchyOmega extension and configure it to use the proxy at 127.0.0.1:9911"
+
+open -na "Google Chrome" \
+    --args \
+    --disable-web-security \
+    --profile-directory="IVAAPDev" \
+    --disable-site-isolation-trials \
+    --user-data-dir="/tmp/Chrome_IVAAPDev"

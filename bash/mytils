@@ -9,7 +9,7 @@ printdir() {
 	for f in "$1"/*; do 
 		# echo "  $f"
 		if [[ -f "$f" && -x "$f" ]]; then 
-			echo "  $($f --descr)"
+			echo "$($f --descr '-')"
 		fi
 	done
 }
@@ -22,20 +22,36 @@ if [[ -z "$1" || "$1" == "list" ]]; then
 
 	for f in "$scripts_path"/*; do
 		if [ -d "$f" ]; then
+			f_name=$(basename $f)
+			if [[ "$f_name" == "internal" ]]; then
+				continue
+			fi
 			printdir $f "$(basename $f)"
 		fi
 	done
-
 	echo
 else
-    for file in "$scripts_path"/**/*; do
-		if [[ -f "$file" && -x "$file" && "$(basename $file)" == "$1" ]]; then
-			echo "running command: $file ${@:2}"
-			$file "${@:2}"
-			exit 0
+	# echo "Searching for script $1 in $scripts_path"
+    # for file in "$scripts_path"/**/*; do
+	# 	# echo "checking $file"
+	# 	filename=$(basename $file)
+	# 	echo "filename: $filename == $1"
+	# 	if [[ -f "$file" && -x "$file" && "$filename" == "$1" ]]; then
+	# 		# echo "running command: $file ${@:2}"
+	# 		"$file" "${@:2}"
+	# 		exit 0
+	# 	fi
+	# done
+	# echo "Script $1 not found"
+
+    # echo "Searching for script $1 in $scripts_path"
+	for file in $(find "$scripts_path" -type f -perm -u=x); do
+		filename=$(basename "$file")
+		if [[ "$filename" == "$1" ]]; then
+			"$file" "${@:2}"
+			exit $?
 		fi
 	done
-	# find "$scripts_path" -type f -name "$1" -exec {} "${@:2}" \; -quit
-	# $mytils_script_path/scripts/"$1" "${@:2}" || echo "Script $1 not found"
+	echo "Script $1 not found"
 fi
 

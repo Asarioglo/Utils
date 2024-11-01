@@ -1,0 +1,50 @@
+#!/bin/bash
+
+show_descr() {
+	echo "$1 cachedproxy - Runsa a SOCKS5 proxy which caches responses from provided endpoints"
+    echo "$1 | Usage cachedproxy --port <port=9912> --patterns \"pattern1\" \"pattern2\""
+    echo "$1 | If no patterns are provided, all requests are cached"
+}
+
+if mytils isdescr "$1"; then
+	show_descr "$2"
+	exit 0
+fi
+
+# Initialize variables
+port="9912"
+patterns=()
+
+# Parse options
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --port)
+      port="$2"
+      shift 2
+      ;;
+    --patterns)
+      shift
+      while [[ $# -gt 0 && ! "$1" =~ ^-- ]]; do
+        patterns+=("$1")  # Add each pattern to the array
+        shift
+      done
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
+
+# Output the collected inputs
+echo "Port: $port"
+
+IFS=";"  # Set IFS to :
+joined_patterns="${patterns[*]}"
+export MYTILS_PROXY_CACHE_PATTERNS="$joined_patterns"
+
+#echo "Patterns: $MYTILS_PROXY_CACHE_PATTERNS"
+
+echo "Starting mitmproxy on port $port ..."
+
+mitmproxy --mode socks5 --listen-port $port -s $(mytils utilspath)/python/mitmproxy/cache_requests.py

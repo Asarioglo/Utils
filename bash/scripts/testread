@@ -1,0 +1,18 @@
+#!/bin/bash
+
+show_descr() {
+	echo "$1 testread - Tests getting a y or no from the user"
+}
+
+is_descr=$(mytils isdescr "is$1")
+
+if mytils isdescr "$1"; then
+	show_descr $2
+	exit 0
+fi
+
+if mytils confirm "Do you want to do this? [y/n]"; then
+    echo "You said yes"
+else
+    echo "You said no"
+fi

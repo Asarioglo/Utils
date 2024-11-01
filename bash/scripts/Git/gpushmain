@@ -1,20 +1,13 @@
 #!/bin/bash
 
 show_descr() {
-	echo "gpushmain - git commit, git add and git push to main or master (usage: mytils gpushmain '<commit message>')"
+	echo "$1 gpushmain - git commit, git add and git push to main or master (usage: mytils gpushmain '<commit message>')"
 }
 
-while [[ $# -gt 0 ]]; do
-	case "$1" in
-		-d|--descr)
-			show_descr
-			exit 0
-			;;
-		*)
-			break
-			;;
-	esac
-done
+if mytils isdescr "$1"; then
+	show_descr $2
+	exit 0
+fi
 
 echo "Starting the process"
 

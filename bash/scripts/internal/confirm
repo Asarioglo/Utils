@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# We don't need any arguments, also skips --descr
+if [[ $1 == "-"* ]]; then
+    exit 1
+fi
+
+read -p "$1: " answer
+
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+    exit 0
+else
+    exit 1
+fi

@@ -1,5 +1,0 @@
-#!/bin/bash
-
-mytils_script_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-echo $mytils_script_path
