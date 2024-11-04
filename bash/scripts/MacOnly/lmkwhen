@@ -27,8 +27,6 @@ fi
 
 # Run the command
 
-shift
-
 "$@"
 
 (mytils notify "$1 Command completed" "Command Completed!") &
