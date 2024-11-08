@@ -6,8 +6,8 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-	mytils $script_name [--help|--descr]
-	mytils $script_name [<branch>=master]
+	my $script_name [--help|--descr]
+	my $script_name [<branch>=master]
 
 Special script for IVAAP. When in the root of repository, this script will:
 	- Stash current changes
@@ -19,11 +19,11 @@ Special script for IVAAP. When in the root of repository, this script will:
 	- Re-Install dependencies
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
@@ -33,7 +33,7 @@ if [[ -n "$1" ]]; then
 fi
 
 _reset() {
-	synctoolkit=$(mytils seescripts | grep "sync-toolkit")
+	synctoolkit=$(my seescripts | grep "sync-toolkit")
 	if [[ -z "$synctoolkit" ]]; then
 		echo "Doesn't seem to be an IVAAP directory, stopping"
 		exit 1
@@ -68,7 +68,7 @@ _reset() {
 	npm ci
 }
 
-if mytils confirm "This will reset all changes in $branch, are you sure? [y/n]"; then
+if my confirm "This will reset all changes in $branch, are you sure? [y/n]"; then
     _reset $branch
 else
     echo "Stopped."

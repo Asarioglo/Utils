@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+chmod +x "$(my utilspath)"/bash/scripts/*
+chmod +x "$(my utilspath)"/bash/scripts/**/*

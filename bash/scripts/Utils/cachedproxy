@@ -5,8 +5,8 @@ descr_str="Runsa a SOCKS5 proxy which caches responses from provided endpoints"
 help_str="
 $descr_str
 ------------------------------------------------------------------
-usage:  mytils $script_name [--help|--descr]
-        mytils $script_name [--port <port=9912>] [--patterns \"pattern1\" \"pattern2\"]
+usage:  my $script_name [--help|--descr]
+        my $script_name [--port <port=9912>] [--patterns \"pattern1\" \"pattern2\"]
 
 Starts a local SOCKS5 proxy which caches responses from provided endpoints.
 An in-memory cache is used to store responses. 
@@ -17,11 +17,11 @@ To use this proxy, set the browser proxy settings to use a SOCKS5 proxy
 on 127.0.0.1:<port>. The default port is 9912.
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
@@ -61,6 +61,6 @@ export MYTILS_PROXY_CACHE_PATTERNS="$joined_patterns"
 
 echo "Starting mitmproxy on port $port ..."
 
-mitmproxy --mode socks5 --listen-port $port -s $(mytils utilspath)/python/mitmproxy/cache_requests.py
+mitmproxy --mode socks5 --listen-port $port -s $(my utilspath)/python/mitmproxy/cache_requests.py
 
 # Add --upstream-socks5 127.0.0.1:9911 to use INT jump SSH proxy

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Clean up space on the machine"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	my $script_name [--help|--descr]
+    my $script_name
+
+Will look at some usual suspects for space hogs and ask if you want to clean them up.
+"
+
+if my isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if my ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+# Run the command
+
+moviedir="$HOME/Movies"
+moviesize=$(du -sh "$moviedir" | awk '{print $1}')
+
+if my confirm "Movies (~/Movies) takes up $moviesize, do you want to clean it up?"; then
+    rm -rf "$moviedir"/*
+fi

@@ -6,18 +6,18 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-	mytils $script_name [--help|--descr]
+	my $script_name [--help|--descr]
 
 This script does nothing. Its purpose is to be copied and pasted
 into a new utility as a guide of how to structure and integrate it
-with the mytils infrastructure.
+with the my infrastructure.
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 

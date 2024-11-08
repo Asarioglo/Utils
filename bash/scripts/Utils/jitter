@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Moves the mouse pointer randomly aroud the screen"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: my $script_name [--help|--descr]
+
+Simple script for moving the mouse pointer so that the screen does not
+lock. This is useful for long running processes that may cause the screen
+to lock.
+"
+
+if my isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if my ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+/usr/bin/env python "$(my utilspath)/python/jitter.py"

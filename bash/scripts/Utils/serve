@@ -6,19 +6,19 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage:	
-	mytils $script_name [--help|--descr]
-	mytils serve [port=8000]
+	my $script_name [--help|--descr]
+	my serve [port=8000]
 
 Uses Python http module to start a web server and serve the current 
 directory. The default port is 8000, but can be changed by passing
 a port number as an argument.
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
@@ -28,7 +28,7 @@ show_descr() {
 	echo "$1  | Usage: serve [port]"
 }
 
-if mytils isdescr "$1"; then
+if my isdescr "$1"; then
 	show_descr $2
 	exit 0
 fi

@@ -6,17 +6,17 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-	mytils $script_name [--help|--descr]
-	mytils $script_name 
+	my $script_name [--help|--descr]
+	my $script_name 
 
 Shortcut for 'git review -d'
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 

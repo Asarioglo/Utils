@@ -6,22 +6,22 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-	mytils $script_name [--help|--descr]
-    mytils lmkwhen [command]
+	my $script_name [--help|--descr]
+    my $script_name [command]
 
 example:
-    mytils lmkwhen npm run build
+    my lmkwhen npm run build
 
 Only works on MacOS, this script will play a sound and show a system
 notification when the command completes.
-Simply put \`mytils lmkwhen\` before the command you want to run.
+Simply put \`my lmkwhen\` before the command you want to run.
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
@@ -29,4 +29,4 @@ fi
 
 "$@"
 
-(mytils notify "$1 Command completed" "Command Completed!") &
+(my notify "$1 Command completed" "Command Completed!") &

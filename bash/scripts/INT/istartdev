@@ -6,29 +6,29 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-	mytils $script_name [--help|--descr]
-	mytils $script_name [branch=master]
+	my $script_name [--help|--descr]
+	my $script_name [branch=master]
 
 Completely resets the current state of the local repository to the 
 state of the remote repository on the specified branch, then builds 
 a debug version of IVAAP and starts the dev server. 
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
 
 show_descr() {
 	echo "$1 idevmode - Full reset on target branch, debug build and start
-	echo "$1 | Usage: mytils idevmode [branch=master]
+	echo "$1 | Usage: my idevmode [branch=master]
 }
 
-if mytils isdescr "$1"; then
+if my isdescr "$1"; then
 	show_descr "$2"
 	exit 0
 fi
@@ -40,12 +40,12 @@ fi
 
 pkgname=$(cat package.json | jq -r ".name")
 
-if [[ ! pkgname == "ivaap" ]]; then
+if [[ ! $pkgname == "ivaap" ]]; then
 	echo "Must be in ivaap client project, Stopping."
 	exit 1
 fi
 
-mytils isyncall "$branch"
+my isyncall "$branch"
 
-npm run debug
+my lmkwhen npm run debug
 npm run debug:app

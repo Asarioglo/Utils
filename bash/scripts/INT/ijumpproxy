@@ -6,8 +6,8 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-	mytils $script_name [--help|--descr]
-	mytils $script_name [--stop]
+	my $script_name [--help|--descr]
+	my $script_name [--stop]
 
 Open a SOCKS tunnel to INT's jump server on port 9911.
 
@@ -15,11 +15,11 @@ Options:
 	--stop		Stop the SOCKS proxy if one is already open.
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
@@ -28,7 +28,7 @@ show_descr() {
 	echo "$1 ijumpproxy - Opena an SSH tunnel in SOCKS proxy mode to INT's jump server on port 9911"
 }
 
-if mytils isdescr "$1"; then
+if my isdescr "$1"; then
 	show_descr "$2"
 	exit 0
 fi
@@ -36,11 +36,13 @@ fi
 port=9911
 
 if [ "$1" == "--stop" ]; then
-	if mytils _isportfree 9911; then
+	if my _isportfree $port; then
 		echo "Port $port is free. No SOCKS proxy is open."
 		exit 1
 	fi
+
 	pid=$(lsof -ti:"$port")
+
 	if ps aux | grep "$pid" | grep -v "grep" | grep -q "ssh"; then
 		echo "Stopping the SOCKS proxy on port $port. PID $pid"
 		kill $pid
@@ -54,7 +56,7 @@ if [ "$1" == "--stop" ]; then
 fi
 
 # Check if the port is free first
-if ! mytils _isportfree "$port"; then
+if ! my _isportfree "$port"; then
 	echo "Port $port is being listened to. Most probably, the jump proxy is already open."
 	exit 1
 fi

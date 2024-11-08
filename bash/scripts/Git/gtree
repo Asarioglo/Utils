@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+script_name=$(basename $0)
+descr_str="Prints a graphical representation of the git tree in the current repository"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+    my $script_name [--help|--descr]
+    my $script_name
+    my $script_name --add
+
+Prints a graphical representation of the branch tree of the current git repository. 
+Provides colored output with condenced information about the commits, as well as 
+ASCII art representation of the branches.
+
+Options:
+    --add   Adds the alias 'lg' to the git config, which is a shorthand for this script.
+"
+
+if my isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if my ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+################################################################################
+
+format_str="\
+%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) \
+%C(black)%s%C(reset) %C(dim black)- %an%C(reset)%C(bold yellow)%d%C(reset)"
+
+git config --global alias.mylg "log \
+--graph \
+--abbrev-commit \
+--decorate \
+--all \
+--first-parent \
+--simplify-by-decoration \
+--format=format:'$format_str'"
+
+if [[ $1 == "--add" ]]; then
+    echo "Adding alias 'lg' to git config"
+    git config --global alias.lg '!git mylg'
+    
+    echo "Formatted git tree can be viewed with 'git lg'"
+    exit 0
+fi
+
+if [[ $1 == "--show-head" ]]; then
+    git mylg | grep --color=always "HEAD\|$"
+    exit 0
+fi
+
+git mylg

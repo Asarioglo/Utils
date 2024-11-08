@@ -1,6 +1,6 @@
 #!/bin/bash
 
-title="Mytils"
+title="my"
 if [ -n "$2" ]; then
     title="$2"
 fi

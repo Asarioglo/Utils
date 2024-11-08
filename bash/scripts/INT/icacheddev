@@ -6,7 +6,7 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-	mytils $script_name [--help|--descr]
+	my $script_name [--help|--descr]
 
 Starts a cached proxy configured to cache all requests from 
 https://dev.ivaap.int.com. 
@@ -14,15 +14,17 @@ The proxy will run on port 9912. You will need to configure your
 browser to use SOCKS5 proxy on 127.0.0.1:9912
 "
 
-if mytils isdescr "$1" "$descr_str"; then
+if my isdescr "$1" "$descr_str"; then
 	exit 0
 fi
 
-if mytils ishelp "$1" "$help_str"; then
+if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
 
 _run_proxy() {
-    mytils cachedproxy --port 9912 --patterns "https://dev\.ivaap\.int\.com.*"
+    my cachedproxy --port 9912 --patterns "https://dev\.ivaap\.int\.com.*"
 }
+
+_run_proxy
