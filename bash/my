@@ -18,6 +18,11 @@ printdir() {
 }
 
 if [[ -z "$1" || "$1" == "list" ]]; then
+	if [[ -z "$1" ]]; then
+		echo
+		echo "My: Personal list of utilities and scripts"
+	fi
+
 	echo
 	echo "Available Utilities:"
 	echo "--------------------"
@@ -32,6 +37,12 @@ if [[ -z "$1" || "$1" == "list" ]]; then
 			printdir $f "$(basename $f)"
 		fi
 	done
+	echo
+elif [[ "$1" == "-v" || "$1" == "--version" ]]; then
+	echo
+	echo "My: Personal list of utilities and scripts"
+	echo "version: $(cat $mytils_path/VERSION)"
+	echo "Type 'my' or 'my list' to see available utilities"
 	echo
 else
 	# echo "Searching for script $1 in $scripts_path"

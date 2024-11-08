@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
+echo "Making all scripts executable..."
 chmod +x "$(my utilspath)"/bash/scripts/*
 chmod +x "$(my utilspath)"/bash/scripts/**/*
+echo "Done"
