@@ -44,6 +44,12 @@ elif [[ "$1" == "-v" || "$1" == "--version" ]]; then
 	echo "version: $(cat $mytils_path/VERSION)"
 	echo "Type 'my' or 'my list' to see available utilities"
 	echo
+elif [[ "$1" == "--list-raw" ]]; then
+    for file in $(find "$scripts_path" -type f -perm -u=x); do
+        basename "$file"
+    done
+    echo
+    exit 0
 else
 	# echo "Searching for script $1 in $scripts_path"
     # for file in "$scripts_path"/**/*; do

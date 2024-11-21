@@ -15,6 +15,11 @@ install_zsh() {
         echo "export MYTILS_PATH=$localpath" >> ~/.zshrc
         echo 'export PATH="$MYTILS_PATH:$PATH"' >> ~/.zshrc
         echo >> ~/.zshrc
+	
+	echo "# Autocomplete " >> ~/.zshrc
+	cat autocomplete_zsh.txt >> ~/.zshrc
+	echo "# End sasha utils" >> ~/.zshrc
+	echo >> ~/.zshrc
 }
 
 backup_zsh() {
@@ -31,13 +36,15 @@ restore_zsh() {
 
 if [ -f ~/.zshrc ]; then
 
-	if [ zsh_installed ]; then
+	if zsh_installed; then
 		echo "The utils have already been installed"
 	else
 		echo "Adding the scripts to the ZSH"
 		backup_zsh
 		install_zsh || restore_zsh
 	fi
+
+	source ~/.zshrc
 else
 	echo ".zshrc not found"
 fi

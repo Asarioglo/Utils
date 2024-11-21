@@ -6,16 +6,18 @@ help_str="
 $descr_str
 ------------------------------------------------------------------
 usage: 
-    my $script_name [--help|--descr]
-    my $script_name
-    my $script_name --add
+    my $script_name [--help|--descr]    # Prints this help message
+    my $script_name                     # Prints the git tree
+    my $script_name --add               # Adds the alias 'lg' to the git config
+    my $script_name --show-head         # Prints the git tree with the HEAD highlighted
 
 Prints a graphical representation of the branch tree of the current git repository. 
 Provides colored output with condenced information about the commits, as well as 
 ASCII art representation of the branches.
 
 Options:
-    --add   Adds the alias 'lg' to the git config, which is a shorthand for this script.
+    --add       Adds the alias 'lg' to the git config, which is a shorthand for this script.
+    --show-head Prints the git tree with the HEAD highlighted.
 "
 
 if my isdescr "$1" "$descr_str"; then

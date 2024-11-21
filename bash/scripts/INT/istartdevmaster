@@ -1,7 +1,7 @@
 #!/bin/bash
 
 script_name=$(basename $0)
-descr_str="Builds a debug version of IVAAP and starts the dev server"
+descr_str="Reset to latest origin master and setup a clean development environment"
 help_str="
 $descr_str
 ------------------------------------------------------------------
@@ -9,7 +9,9 @@ usage:
 	my $script_name [--help|--descr]
 	my $script_name [branch=master]
 
-Builds a debug version of IVAAP and starts the dev server.
+Completely resets the current state of the local repository to the 
+state of the remote master, then builds a debug version of IVAAP and 
+starts the dev server. 
 "
 
 if my isdescr "$1" "$descr_str"; then
@@ -33,12 +35,19 @@ fi
 
 ############################################
 
+branch="master"
+if [[ -n "$1" ]]; then
+	branch=$1
+fi
+
 pkgname=$(cat package.json | jq -r ".name")
 
 if [[ ! $pkgname == "ivaap" ]]; then
 	echo "Must be in ivaap client project, Stopping."
 	exit 1
 fi
+
+my isyncall "$branch"
 
 my lmkwhen npm run debug
 npm run debug:app

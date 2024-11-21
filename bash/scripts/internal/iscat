@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# echo "Running iscat"
+
+if [[ -n "$1" && ("$1" == "-c" || "$1" == "--cat") ]]; then
+    if [[ -n "$2" ]]; then
+        cat "$2"
+    fi
+    exit 0
+else
+    exit 1
+fi

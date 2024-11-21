@@ -21,4 +21,8 @@ if my ishelp "$1" "$help_str"; then
 	exit 0
 fi
 
+if my iscat "$1" "$0"; then
+	exit 0
+fi
+
 echo "This script does nothing, it should be used as an example for other scripts"

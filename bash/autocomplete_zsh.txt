@@ -1,0 +1,11 @@
+_my() {
+    # Get the list of commands from `my --list-raw`, one command per line
+    local -a commands
+    commands=("${(f)$(my --list-raw)}")  # Populate commands array from output of `my --list-raw`
+
+    # Use `compadd` to add them to the completion options
+    compadd "${commands[@]}"
+}
+
+# Link the completion function to the `my` command
+compdef _my my

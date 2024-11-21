@@ -30,9 +30,9 @@ def request(flow: http.HTTPFlow) -> None:
 
 def response(flow: http.HTTPFlow) -> None:
     # Modify CORS headers
-    flow.response.headers["Access-Control-Allow-Origin"] = "*"
-    flow.response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    flow.response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    # flow.response.headers["Access-Control-Allow-Origin"] = "*"
+    # flow.response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    # flow.response.headers["Access-Control-Allow-Headers"] = "Content-Type"
 
     # Cache responses matching patterns
     for pattern in URL_PATTERNS_TO_CACHE:

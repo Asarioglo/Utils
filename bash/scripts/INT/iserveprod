@@ -1,0 +1,26 @@
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Serves the production build on port 8080. Must be in IVAAP (Platform) directory"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	my $script_name [--help|--descr]
+
+Starts a local server to serve the production build of IVAAP on port 8080.
+Assumes the production build already ran. 
+Assumes the current directory is the root of IVAAP platform directory.
+"
+
+if my isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if my ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+############################################
+
+(cd bin/ivaap && my serve 8080)
