@@ -1,3 +1,5 @@
+autoload -Uz compinit compinit
+
 _my() {
     # Get the list of commands from `my --list-raw`, one command per line
     local -a commands

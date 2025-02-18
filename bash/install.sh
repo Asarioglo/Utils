@@ -20,6 +20,7 @@ install_zsh() {
 	cat autocomplete_zsh.txt >> ~/.zshrc
 	echo "# End sasha utils" >> ~/.zshrc
 	echo >> ~/.zshrc
+	# zsh -c "source ~/.zshrc"
 }
 
 backup_zsh() {
@@ -43,8 +44,6 @@ if [ -f ~/.zshrc ]; then
 		backup_zsh
 		install_zsh || restore_zsh
 	fi
-
-	source ~/.zshrc
 else
 	echo ".zshrc not found"
 fi
