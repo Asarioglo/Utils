@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+script_name=$(basename $0)
+descr_str="Compile the provided file into the bin directory and run it"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	my $script_name [--help|--descr]
+    my $script_name <path_to_file.rs>
+
+Compiles the current file and writes the binary to the bin directory 
+along side the file. If the bin directory does not exist, it will be
+created. The binary will be run with the provided arguments.
+"
+
+if my isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if my ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+#####
+
+if [ -z "$1" ]; then
+    echo "No file provided"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "File does not exist"
+    exit 1
+fi
+
+file_dir=$(dirname "$1")
+
+if [ ! -d "$file_dir/bin" ]; then
+    mkdir -p "$file_dir/bin"
+fi
+
+file_name=$(basename "$1")
+file_name_no_ext="${file_name%.*}"
+
+rustc "$1" -o "$file_dir/bin/$file_name"
+"$file_dir/bin/$file_name_no_ext" "${@:2}"

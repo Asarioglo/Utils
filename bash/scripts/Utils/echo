@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Starts a http server listening on the provided port which will echo the request"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: my $script_name [--help|--descr]
+
+Simply echo each request (GET and POST) back to the client.
+Uses python SimpleHTTPServer module.
+"
+
+if my isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if my ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+port=8080
+if [ -n "$1" ]; then
+    port=$1
+fi
+
+/usr/bin/env python "$(my utilspath)/python/http_echo.py" --port $1
