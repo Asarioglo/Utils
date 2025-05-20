@@ -1,0 +1,28 @@
+#!/bin/bash
+
+script_name=$(basename $0)
+descr_str="Set terminal name to \`Short\`"
+help_str="
+$descr_str
+------------------------------------------------------------------
+usage: 
+	my $script_name [--help|--descr]
+    my $script_name [command]
+
+example:
+    my $script_name
+
+Used for quich switching between terminals. One terminal is for short tasks
+and one for long tasks. There are hotkeys to select either one.
+"
+
+if my isdescr "$1" "$descr_str"; then
+	exit 0
+fi
+
+if my ishelp "$1" "$help_str"; then
+	exit 0
+fi
+
+# Run the command
+echo -ne "\033]0;Short\a"
